@@ -30,7 +30,7 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
             if start != -1 and end != -1:
                 nav_html = nav_html[:start] + nav_html[end+len('</details>'):]
         # remove individual anchors
-        for frag in ['<a class="button" href="/">Home</a>', '<a class="button" href="/products">商品一覧</a>', '<a class="button" href="/cart">カートを見る</a>', '<a class="button" href="/orders">注文履歴</a>', '<a class="button" href="/logout">Log out</a>', '<a class="button" href="/logout">ログアウト</a>']:
+        for frag in ['<a class="button" href="/">ホーム</a>', '<a class="button" href="/products">商品一覧</a>', '<a class="button" href="/cart">カートを見る</a>', '<a class="button" href="/orders">注文履歴</a>', '<a class="button" href="/logout">ログアウト</a>', '<a class="button" href="/logout">ログアウト</a>']:
             nav_html = nav_html.replace(frag, '')
     except Exception:
         pass
@@ -122,7 +122,7 @@ def admin_nav_html() -> str:
     return """
             <nav class="header-nav">
                 <div class="nav-left">
-                    <a class="button" href="/">Home</a>
+                    <a class="button" href="/">ホーム</a>
                     <a class="button" href="/products">商品一覧</a>
                 </div>
         <div class="nav-right">
@@ -130,7 +130,7 @@ def admin_nav_html() -> str:
           <a class="button" href="/admin/users">ユーザー管理</a>
           <a class="button" href="/cart">カートを見る</a>
           <a class="button" href="/orders">注文履歴</a>
-          <a class="button" href="/logout">Log out</a>
+          <a class="button" href="/logout">ログアウト</a>
         </div>
       </nav>
     """
@@ -141,7 +141,7 @@ def header_buttons_html(hide_order_history_button: bool = False, hide_home_butto
     user = get_current_user()
     parts = []
     if not hide_home_button:
-        parts.append('<a class="button" href="/">Home</a>')
+        parts.append('<a class="button" href="/">ホーム</a>')
     if not hide_product_list_button:
         parts.append('<a class="button" href="/products">商品一覧</a>')
     if not hide_cart_button:
@@ -149,7 +149,7 @@ def header_buttons_html(hide_order_history_button: bool = False, hide_home_butto
     if not hide_order_history_button:
         parts.append('<a class="button" href="/orders">注文履歴</a>')
     if user:
-        parts.append('<a class="button" href="/logout">Log out</a>')
+        parts.append('<a class="button" href="/logout">ログアウト</a>')
     else:
         parts.append('<details class="nav-dropdown"><summary class="button">ログイン/新規ユーザー登録</summary><div class="dropdown-menu"><a class="button" href="/login">ログイン</a><a class="button" href="/register">新規ユーザー登録</a></div></details>')
     return '\n'.join(parts)
@@ -175,13 +175,13 @@ def build_nav_html() -> str:
         return """
                     <nav class="header-nav">
                         <div class="nav-left">
-                            <a class="button" href="/">Home</a>
+                            <a class="button" href="/">ホーム</a>
                             <a class="button" href="/products">商品一覧</a>
                         </div>
             <div class="nav-right">
               <a class="button" href="/cart">カートを見る</a>
               <a class="button" href="/orders">注文履歴</a>
-              <a class="button" href="/logout">Log out</a>
+              <a class="button" href="/logout">ログアウト</a>
             </div>
           </nav>
         """
@@ -189,7 +189,7 @@ def build_nav_html() -> str:
     return """
             <nav class="header-nav">
                 <div class="nav-left">
-                    <a class="button" href="/">Home</a>
+                    <a class="button" href="/">ホーム</a>
                     <a class="button" href="/products">商品一覧</a>
                 </div>
         <div class="nav-right">
@@ -433,7 +433,7 @@ def index():
     """
     nav_html = build_nav_html()
     # If the home link was duplicated, remove the extra copy.
-    nav_html = nav_html.replace('<a class="button" href="/">Home</a>', '')
+    nav_html = nav_html.replace('<a class="button" href="/">ホーム</a>', '')
     # If the products link appears twice, keep only the first one.
     prod_link = '<a class="button" href="/products">商品一覧</a>'
     try:
@@ -505,14 +505,14 @@ def db_test():
         content = f"""
             <p>MySQL に接続できました</p>
             <p><strong>現在時刻:</strong> {result['current_time']}</p>
-            <p><a class=\"button\" href=\"/\">Home</a></p>
+            <p><a class=\"button\" href=\"/\">ホームへ</a></p>
         """
         return page_template("DB接続確認", content, nav_html=build_nav_html())
     except Exception as e:
         content = f"""
             <div class=\"error-box\">DB 接続時にエラーが発生しました。</div>
             <pre>{str(e)}</pre>
-            <p><a class=\"button\" href=\"/\">Home</a></p>
+            <p><a class=\"button\" href=\"/\">ホームへ</a></p>
         """
         return page_template("DB接続エラー", content, nav_html=build_nav_html())
 
@@ -601,7 +601,7 @@ def cart_view():
                 <p>カートに商品がありません</p>
                 <div class="grid-actions">
                   <a class="button" href="/products">商品一覧へ</a>
-                                    <a class="button" href="/">Home</a>
+                                    <a class="button" href="/">ホームへ</a>
                 </div>
             """
             return page_template("カート", content)
@@ -661,7 +661,7 @@ def cart_view():
         content = f"""
             <div class=\"error-box\">カートの読み込み中にエラーが発生しました。</div>
             <pre>{str(e)}</pre>
-            <p><a class=\"button\" href=\"/\">Home</a></p>
+            <p><a class=\"button\" href=\"/\">ホームへ</a></p>
         """
         return page_template("エラー", content)
 
@@ -874,7 +874,7 @@ def order_list():
         content = f"""
             <div class=\"error-box\">注文履歴の読み込み中にエラーが発生しました。</div>
             <pre>{str(e)}</pre>
-            <p><a class=\"button\" href=\"/\">Home</a></p>
+            <p><a class=\"button\" href=\"/\">ホームへ</a></p>
         """
         return page_template("エラー", content)
 
@@ -931,7 +931,7 @@ def order_detail(order_id):
             <p><strong>合計金額:</strong> {format_currency(order['total_amount'])}</p>
             <div class=\"grid-actions\">
                             <a class=\"button\" href=\"/orders\">注文一覧へ</a>
-                            <a class=\"button\" href=\"/\">Home</a>
+                            <a class=\"button\" href=\"/\">ホームへ</a>
             </div>
         """
         return page_template(f"注文 {order_id} の詳細", content)
