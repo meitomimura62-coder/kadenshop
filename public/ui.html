@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Questions API Tester</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Zen+Kaku+Gothic+New:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/ui.css">
+</head>
+<body>
+  <div class="stage">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">API Playground</p>
+        <h1>Question Bank<br>Control Room</h1>
+        <p class="sub">MySQL x PHP のCRUDを軽く触るためのテストUI。ローカルAPI <span id="apiBase">http://localhost:8080</span> に接続します。</p>
+      </div>
+      <div class="status">
+        <button id="healthBtn">Health Check</button>
+        <span id="healthStatus">-</span>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Create Question</h2>
+        <div class="form">
+          <label>domain_name<input id="qDomain" placeholder="テクノロジ系"></label>
+          <label>topic_name<input id="qTopic" placeholder="ネットワーク"></label>
+          <label>title<input id="qTitle" placeholder="第1問"></label>
+          <label>stem<textarea id="qStem" rows="3" placeholder="設問本文"></textarea></label>
+          <label>correct_label<input id="qCorrect" placeholder="A"></label>
+          <label>choices (A-D,1行=1選択肢)
+            <textarea id="qChoices" rows="4" placeholder="A: ...\nB: ...\nC: ...\nD: ..."></textarea>
+          </label>
+          <button id="createQuestionBtn">Create</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>List Questions</h2>
+        <div class="form">
+          <label>domain_name<input id="listDomain" placeholder="任意"></label>
+          <label>topic_name<input id="listTopic" placeholder="任意"></label>
+          <label>include choices<input id="listInclude" placeholder="choices"></label>
+          <label>limit<input id="listLimit" placeholder="20"></label>
+          <button id="listQuestionsBtn">Fetch</button>
+        </div>
+        <pre id="questionsList" class="output"></pre>
+      </div>
+
+      <div class="card">
+        <h2>Get / Update / Delete</h2>
+        <div class="form">
+          <label>question_id<input id="oneId" placeholder="1"></label>
+          <div class="row">
+            <button id="getOneBtn">Get</button>
+            <button id="deleteOneBtn" class="danger">Delete</button>
+          </div>
+          <label>Update JSON<textarea id="updateJson" rows="6" placeholder='{"title":"第1問(更新)","is_active":0}'></textarea></label>
+          <button id="updateOneBtn">Update</button>
+        </div>
+        <pre id="oneOutput" class="output"></pre>
+      </div>
+
+      <div class="card">
+        <h2>Submit Answer</h2>
+        <div class="form">
+          <label>user_id<input id="ansUser" placeholder="1"></label>
+          <label>question_id<input id="ansQ" placeholder="1"></label>
+          <label>selected_label<input id="ansLabel" placeholder="A"></label>
+          <label>elapsed_ms<input id="ansElapsed" placeholder="1200"></label>
+          <button id="submitAnswerBtn">Submit</button>
+        </div>
+        <pre id="answerOutput" class="output"></pre>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>Raw Request</h2>
+      <div class="form">
+        <label>method<input id="rawMethod" placeholder="GET"></label>
+        <label>path<input id="rawPath" placeholder="/questions"></label>
+        <label>body (JSON)<textarea id="rawBody" rows="6" placeholder='{"limit":5}'></textarea></label>
+        <button id="rawSendBtn">Send</button>
+      </div>
+      <pre id="rawOutput" class="output"></pre>
+    </section>
+  </div>
+
+  <script src="/ui.js"></script>
+</body>
+</html>
