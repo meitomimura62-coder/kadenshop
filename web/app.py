@@ -30,7 +30,7 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
             if start != -1 and end != -1:
                 nav_html = nav_html[:start] + nav_html[end+len('</details>'):]
         # remove individual anchors
-        for frag in ['<a class="button" href="/">ホーム</a>', '<a class="button" href="/products">商品一覧</a>', '<a class="button" href="/cart">カートを見る</a>', '<a class="button" href="/orders">注文履歴</a>', '<a class="button" href="/logout">ログアウト</a>']:
+        for frag in ['<a class="button" href="/">ホーム</a>', '<a class="button" href="/products">商品一覧</a>', '<a class="button" href="/cart">カートを見る</a>', '<a class="button" href="/orders">注文履歴</a>', '<a class="button" href="/logout">Log out</a>', '<a class="button" href="/logout">ログアウト</a>']:
             nav_html = nav_html.replace(frag, '')
     except Exception:
         pass
@@ -130,7 +130,7 @@ def admin_nav_html() -> str:
           <a class="button" href="/admin/users">ユーザー管理</a>
           <a class="button" href="/cart">カートを見る</a>
           <a class="button" href="/orders">注文履歴</a>
-          <a class="button" href="/logout">ログアウト</a>
+          <a class="button" href="/logout">Log out</a>
         </div>
       </nav>
     """
@@ -149,7 +149,7 @@ def header_buttons_html(hide_order_history_button: bool = False, hide_home_butto
     if not hide_order_history_button:
         parts.append('<a class="button" href="/orders">注文履歴</a>')
     if user:
-        parts.append('<a class="button" href="/logout">ログアウト</a>')
+        parts.append('<a class="button" href="/logout">Log out</a>')
     else:
         parts.append('<details class="nav-dropdown"><summary class="button">ログイン/新規ユーザー登録</summary><div class="dropdown-menu"><a class="button" href="/login">ログイン</a><a class="button" href="/register">新規ユーザー登録</a></div></details>')
     return '\n'.join(parts)
@@ -181,7 +181,7 @@ def build_nav_html() -> str:
             <div class="nav-right">
               <a class="button" href="/cart">カートを見る</a>
               <a class="button" href="/orders">注文履歴</a>
-              <a class="button" href="/logout">ログアウト</a>
+              <a class="button" href="/logout">Log out</a>
             </div>
           </nav>
         """
