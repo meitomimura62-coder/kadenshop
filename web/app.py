@@ -859,7 +859,7 @@ def order_list():
                     <th>注文ID</th>
                     <th>お名前</th>
                     <th>合計金額</th>
-                    <th>作成日</th>
+                    <th>購入日</th>
                     <th>詳細</th>
                   </tr>
                 </thead>
@@ -1615,5 +1615,4 @@ if __name__ == "__main__":
     # Run without Bottle debug mode so HTTPResponse used for redirects
     # does not appear as an exception traceback to users.
     run(app, host="0.0.0.0", port=8080, debug=False, reloader=True)
-
 
