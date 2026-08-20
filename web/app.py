@@ -50,7 +50,7 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
         .header-nav .nav-left, .header-nav .nav-right { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
         .header-nav .nav-right { justify-content:flex-end; }
         .header-nav .button { margin:0; }
-        h1 { margin: 0; font-size: 2rem; letter-spacing: -0.03em; }
+        h1 { margin: 0; font-size: 2rem; letter-spacing: -0.03em; color:#ffffff; }
         p, li { line-height: 1.7; }
         .card { background:#ffffff; border:1px solid #e5e7eb; border-radius:20px; padding:24px; box-shadow:0 12px 30px rgba(15,23,42,0.08); }
         .button { display:inline-flex; align-items:center; justify-content:center; min-width: 120px; min-height: 48px; padding:0.85rem 1.4rem; border-radius:999px; background:#2563eb; color:#ffffff; text-decoration:none; font-weight:600; transition: background 0.2s ease; border:none; cursor:pointer; white-space: nowrap; box-sizing: border-box; }
@@ -449,7 +449,7 @@ def index():
             nav_html = nav_html[:first_idx+len(prod_link)] + nav_html[first_idx+len(prod_link):].replace(prod_link, '')
     except Exception:
         pass
-    return page_template("ショップホーム", content, nav_html=nav_html, hide_order_history_button=False, hide_home_button=True, extra_styles='h1 { color: #ffffff; }')
+    return page_template("ショップホーム", content, nav_html=nav_html, hide_order_history_button=False, hide_home_button=True)
 
 
 @app.route("/product/<product_id:int>")
