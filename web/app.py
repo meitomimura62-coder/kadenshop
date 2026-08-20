@@ -14,7 +14,7 @@ import traceback
 app = Bottle()
 
 
-def page_template(title: str, content: str, nav_html: str = '', hide_order_history_button: bool = False, hide_home_button: bool = False, hide_product_list_button: bool = False, hide_cart_button: bool = False, background_color: str = '#f3f4f6', extra_styles: str = '', header_logo_html: str = '') -> str:
+def page_template(title: str, content: str, nav_html: str = '', hide_order_history_button: bool = False, hide_home_button: bool = False, hide_product_list_button: bool = False, hide_cart_button: bool = False, background_color: str = '#758492', extra_styles: str = '', header_logo_html: str = '<img class="header-logo" src="/images/smart-home-logo.png" alt="スマイル家電" />') -> str:
     # Build header buttons component and remove duplicates from nav_html
     try:
         buttons_html = header_buttons_html(hide_order_history_button=hide_order_history_button, hide_home_button=hide_home_button, hide_product_list_button=hide_product_list_button, hide_cart_button=hide_cart_button)
@@ -65,6 +65,7 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
                 .header-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; width:100%; margin-bottom:8px; }
         .header-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:12px; }
         .header-logo { display:block; width:132px; height:132px; object-fit:contain; }
+        .header-actions .button, .header-nav .button { border:2px solid #ffffff; }
         .button-cart { display:inline-flex; align-items:center; gap:8px; padding:0.6rem 0.9rem; border-radius:12px; background:#111827; color:#ffffff; font-weight:700; border:none; cursor:pointer; }
         .button-cart svg { width:18px; height:18px; display:block; }
             .button-cart svg { width:18px; height:18px; display:block; pointer-events:none; }
@@ -448,7 +449,7 @@ def index():
             nav_html = nav_html[:first_idx+len(prod_link)] + nav_html[first_idx+len(prod_link):].replace(prod_link, '')
     except Exception:
         pass
-    return page_template("ショップホーム", content, nav_html=nav_html, hide_order_history_button=False, hide_home_button=True, background_color='#758492', extra_styles='.header-top .button, .header-nav .button { border: 2px solid #ffffff; } h1 { color: #ffffff; }', header_logo_html='<img class="header-logo" src="/images/smart-home-logo.png" alt="スマイル家電" />')
+    return page_template("ショップホーム", content, nav_html=nav_html, hide_order_history_button=False, hide_home_button=True, extra_styles='h1 { color: #ffffff; }')
 
 
 @app.route("/product/<product_id:int>")
