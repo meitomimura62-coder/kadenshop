@@ -14,7 +14,7 @@ import traceback
 app = Bottle()
 
 
-def page_template(title: str, content: str, nav_html: str = '', hide_order_history_button: bool = False, hide_home_button: bool = False, hide_product_list_button: bool = False, hide_cart_button: bool = False) -> str:
+def page_template(title: str, content: str, nav_html: str = '', hide_order_history_button: bool = False, hide_home_button: bool = False, hide_product_list_button: bool = False, hide_cart_button: bool = False, background_color: str = '#f3f4f6', extra_styles: str = '', header_logo_html: str = '') -> str:
     # Build header buttons component and remove duplicates from nav_html
     try:
         buttons_html = header_buttons_html(hide_order_history_button=hide_order_history_button, hide_home_button=hide_home_button, hide_product_list_button=hide_product_list_button, hide_cart_button=hide_cart_button)
@@ -43,9 +43,9 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>{{title}}</title>
       <style>
-        body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f3f4f6; color:#111827; }
+        body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:{{background_color}}; color:#111827; }
         .page { max-width: 1040px; margin: 0 auto; padding: 24px; }
-        header { position: sticky; top: 0; z-index: 20; background: #f3f4f6; padding: 16px 0; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; border-bottom: 1px solid rgba(148,163,184,0.2); }
+        header { position: sticky; top: 0; z-index: 20; background: {{background_color}}; padding: 16px 0; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; border-bottom: 1px solid rgba(148,163,184,0.2); }
         .header-nav { display:flex; flex-wrap:wrap; gap:12px; margin-top: 10px; width: 100%; justify-content:space-between; align-items:center; }
         .header-nav .nav-left, .header-nav .nav-right { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
         .header-nav .nav-right { justify-content:flex-end; }
@@ -62,7 +62,9 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
         .nav-dropdown[open] .dropdown-menu { display:flex; }
         .dropdown-menu .button { display:inline-flex; width:100%; min-width:0; min-height:48px; padding:0.85rem 1.4rem; box-sizing:border-box; justify-content:center; border-radius:999px; margin-left:0; }
         .dropdown-menu .button + .button { margin-left: 0; }
-                .header-top { display:flex; justify-content:flex-end; gap:12px; width:100%; margin-bottom:8px; }
+                .header-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; width:100%; margin-bottom:8px; }
+        .header-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:12px; }
+        .header-logo { display:block; width:132px; height:132px; object-fit:contain; }
         .button-cart { display:inline-flex; align-items:center; gap:8px; padding:0.6rem 0.9rem; border-radius:12px; background:#111827; color:#ffffff; font-weight:700; border:none; cursor:pointer; }
         .button-cart svg { width:18px; height:18px; display:block; }
             .button-cart svg { width:18px; height:18px; display:block; pointer-events:none; }
@@ -100,12 +102,16 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
         .error-box { background:#fdf2f8; border:1px solid #fbcfe8; color:#9d174d; padding:16px; border-radius:14px; }
         a { color:#2563eb; text-decoration:none; }
         a:hover { text-decoration:underline; }
+        {{!extra_styles}}
       </style>
     </head>
     <body>
       <div class="page">
                 <header>
-                    <div class="header-top">{{!buttons_html}}</div>
+                    <div class="header-top">
+                      {{!header_logo_html}}
+                      <div class="header-actions">{{!buttons_html}}</div>
+                    </div>
                     <div>
                         <h1>{{title}}</h1>
                         {{!nav_html}}
@@ -115,7 +121,7 @@ def page_template(title: str, content: str, nav_html: str = '', hide_order_histo
       </div>
     </body>
     </html>
-    """, title=title, content=content, nav_html=nav_html, buttons_html=buttons_html)
+    """, title=title, content=content, nav_html=nav_html, buttons_html=buttons_html, background_color=background_color, extra_styles=extra_styles, header_logo_html=header_logo_html)
 
 
 def admin_nav_html() -> str:
@@ -143,7 +149,7 @@ def header_buttons_html(hide_order_history_button: bool = False, hide_home_butto
     if not hide_home_button:
         parts.append('<a class="button" href="/">ホーム</a>')
     if not hide_product_list_button:
-        parts.append('<a class="button" href="/products">商品一覧</a>')
+        parts.append('<a class="button product-list-button" href="/products">商品一覧</a>')
     if not hide_cart_button:
         parts.append('<a class="button" href="/cart">カートを見る</a>')
     if not hide_order_history_button:
@@ -442,7 +448,7 @@ def index():
             nav_html = nav_html[:first_idx+len(prod_link)] + nav_html[first_idx+len(prod_link):].replace(prod_link, '')
     except Exception:
         pass
-    return page_template("ショップホーム", content, nav_html=nav_html, hide_order_history_button=False, hide_home_button=True)
+    return page_template("ショップホーム", content, nav_html=nav_html, hide_order_history_button=False, hide_home_button=True, background_color='#758492', extra_styles='.header-top .button, .header-nav .button { border: 2px solid #ffffff; } h1 { color: #ffffff; }', header_logo_html='<img class="header-logo" src="/images/smart-home-logo.png" alt="スマイル家電" />')
 
 
 @app.route("/product/<product_id:int>")
